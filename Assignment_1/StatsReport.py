@@ -33,3 +33,6 @@ class StatsReport:
 
     def to_String(self):
         return self.data_stats_df.to_string()
+
+    def write_to_file(self, filepath):
+        self.data_stats_df.to_excel(filepath, index=False, engine='openpyxl')

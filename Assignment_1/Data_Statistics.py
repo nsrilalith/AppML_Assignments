@@ -18,3 +18,7 @@ for i in labels:
 
 print(report.to_String())
 
+toExcel_file = "data_report.xlsx"
+print(f'\nSuccessfully generated a data statistics report\nTranscribing data into {toExcel_file} ....')
+
+report.write_to_file(toExcel_file)
