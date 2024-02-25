@@ -1,5 +1,5 @@
 import pandas as pd
 
-diabetes_df = pd.read_excel("diabetic_data_(version_2).xlsx")
+diabetes_df = pd.read_excel("Assignment_1\diabetic_data.xlsx")
 
 print(diabetes_df.shape)
