@@ -16,7 +16,8 @@ clf = tree.DecisionTreeClassifier(criterion="entropy")
 feature_labels = data.columns[:-1]
 features = data[feature_labels]
 
-target = data[data.columns[-1]]
+target_label = data.columns[-1]
+target = data[target_label]
 
 clf.fit(features, target)
 
