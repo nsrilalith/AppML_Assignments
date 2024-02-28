@@ -3,9 +3,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import pandas as pd
 import pydotplus
 
-def writegraphtofile(clf, featurelabels, filename): 
-    dot_data = tree.export_graphviz(clf, feature_names=featurelabels, out_file=None) 
-    graph=pydotplus.graph_from_dot_data(dot_data) 
+
+def writegraphtofile(clf, featurelabels, filename):
+    dot_data = tree.export_graphviz(clf, feature_names=featurelabels, out_file=None)
+    graph = pydotplus.graph_from_dot_data(dot_data)
     graph.write_png(filename)
 
 
@@ -21,7 +22,7 @@ target = data[target_label]
 
 clf.fit(features, target)
 
-writegraphtofile(clf, feature_labels, "treepic.png")
+writegraphtofile(clf, feature_labels, "Assignment_2" + "tree_pic.png")
 
 predictions = clf.predict(features)
 

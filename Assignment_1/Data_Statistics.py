@@ -1,7 +1,6 @@
 import pandas as pd
 from StatsReport import StatsReport
 
-
 excel_data = "Assignment_1\diabetic_data.xlsx"
 diabetes_df = pd.read_excel(excel_data)
 
