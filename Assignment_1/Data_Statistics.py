@@ -1,7 +1,7 @@
 import pandas as pd
 from StatsReport import StatsReport
 
-excel_data = "Assignment_1\diabetic_data.xlsx"
+excel_data = "/Users/srilalithnampally/Classes/AppML_Assignments/Assignment_3/BattingSalariesData.xlsx"
 diabetes_df = pd.read_excel(excel_data)
 
 # print(diabetes_df.shape)
@@ -17,7 +17,7 @@ for i in labels:
 
 print(report.to_String())
 
-toExcel_file = "data_report.xlsx"
+toExcel_file = "/Users/srilalithnampally/Classes/AppML_Assignments/Assignment_3/data_report_salaries.xlsx"
 print(f'\nSuccessfully generated a data statistics report\nTranscribing data into {toExcel_file} ....')
 
 report.write_to_file(toExcel_file)
