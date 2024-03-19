@@ -44,8 +44,8 @@ def KNN_blanaced(feature, target, score_df):
             clf = clf.fit(trainX, trainY.ravel())
             accuracy_test = clf.score(testX, testY)
             accuracy_train = clf.score(trainX, trainY)
-            print(f"For {nnbrs}-NN Classifier on (Unbalanced) data with weighting type ({weighting}); \n accuracy for test_set = {accuracy_test:.4f} \n accuracy for train_set = {accuracy_train:.4f} \n difference in test_set & train_set performace = {abs(accuracy_train - accuracy_test):.4f}\n")
-            row = {'Dataset': 'Unbalanced', 'Neighbors': nnbrs, 'Weighting': weighting, 'Accuracy_test': accuracy_test, 'Accuracy_train': accuracy_train, 'Diff in Train&Test Perf': abs(accuracy_train - accuracy_test)}
+            print(f"For {nnbrs}-NN Classifier on (Balanced) data with weighting type ({weighting}); \n accuracy for test_set = {accuracy_test:.4f} \n accuracy for train_set = {accuracy_train:.4f} \n difference in test_set & train_set performace = {abs(accuracy_train - accuracy_test):.4f}\n")
+            row = {'Dataset': 'Balanced', 'Neighbors': nnbrs, 'Weighting': weighting, 'Accuracy_test': accuracy_test, 'Accuracy_train': accuracy_train, 'Diff in Train&Test Perf': abs(accuracy_train - accuracy_test)}
             score_df.loc[len(score_df.index)] = row
 
 
