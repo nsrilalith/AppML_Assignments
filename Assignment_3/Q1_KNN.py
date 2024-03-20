@@ -5,6 +5,7 @@ from imblearn.under_sampling import RandomUnderSampler
 
 
 def getDF(path):
+    """Returns the csv as a pandas dataframe"""
     print("Reading . . .")
     df = pd.read_csv(path, low_memory=False)
     print("Done")
@@ -12,18 +13,23 @@ def getDF(path):
 
 
 def pp(pdframe):
-    pdframe.replace('?', 0, inplace=True)
-    X = pdframe.drop(pdframe.columns[-1], axis=1)
-    Y = pdframe.iloc[:, -1]
+    """Preprocessing Steps
+    Input - Dataframe
+    Output - Feature_DF, Target_DF"""
+    pdframe.replace('?', 0, inplace=True)                           #Replacing '?' values with 0s, since its numeric column
+    X = pdframe.drop(pdframe.columns[-1], axis=1)                   #Dropping the target column
+    Y = pdframe.iloc[:, -1]                                         #Making the Target into a seperate DF
     X = X.to_numpy(np.float64)
-    Y.replace(('inactive', 'active'), range(2), inplace=True)
+    Y.replace(('inactive', 'active'), range(2), inplace=True)       #Converting target values to numbers
     Y = Y.to_numpy(np.float64)
     return X, Y
 
 
 def KNN_unbalanced(feature, target, score_df):
+    '''KNN for Unbalanced Dataset type'''
     trainX, testX, trainY, testY = model_selection.train_test_split(feature, target, test_size=0.3, random_state=92313)
 
+    #iterate through neighbors and weighting
     for nnbrs in [1, 3, 5, 9, 11, 15, 21]:  # [1, 3, 5, 9, 11, 15, 21]
         for weighting in ['uniform', 'distance']:
             clf = neighbors.KNeighborsClassifier(n_neighbors=nnbrs, weights=weighting)
@@ -38,12 +44,13 @@ def KNN_unbalanced(feature, target, score_df):
 
 
 def KNN_blanaced(feature, target, score_df):
-    rus = RandomUnderSampler(random_state=0)
+    '''KNN for Balanced Dataset'''
+    rus = RandomUnderSampler(random_state=0)                        #Used randomundersampler to create the 50-50
     X_resampled, y_resampled = rus.fit_resample(feature, target)
 
     trainX, testX, trainY, testY = model_selection.train_test_split(X_resampled, y_resampled, test_size=0.3,
                                                                     random_state=92313)
-
+    #iterate through neighbors and weighting
     for nnbrs in [1, 3, 5, 9, 11, 15, 21]:  # [1, 3, 5, 9, 11, 15, 21]
         for weighting in ['uniform', 'distance']:
             clf = neighbors.KNeighborsClassifier(n_neighbors=nnbrs, weights=weighting)
