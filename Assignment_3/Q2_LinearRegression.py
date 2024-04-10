@@ -74,6 +74,7 @@ def tryVariableSelection(xtrain, xtest, ytrain, ytest, sel, dir, labels, model):
     print("Method {0}: Training set R-sq={1:8.5f}, test set MSE={2:e}".format(dir, model.score(newxtrain,
     ytrain), metrics.mean_squared_error(ytest, model.predict(newxtest))))
 
+
 def linregTotal(X, Y, labels):
     doScale = True  
 
@@ -190,17 +191,17 @@ def LinRegByYear(df):
 if __name__ == '__main__':
     path = "BattingSalariesData.xlsx"
 
-    print("Creating DF . . .\n")
+    print("Creating DF . . .")
     df = GetDF(path)
-
-    print("Performing pre-processing . . .\n")
+    print("Got Dataframe ", type(df), "Size:", df.shape)
+    print("\nPerforming pre-processing . . .")
     ndf = prerocessDF(df)
-
+    print("Pre-Processed Dataframe ", type(df), "Size:", df.shape)
     X = ndf.drop(columns='Salary', axis=1)
     Y = ndf['Salary']
     labels = X.columns
     print("\nLinear Regression On Total Dataset. . .\n")
-    #linregTotal(X, Y, labels)
+    linregTotal(X, Y, labels)
     
     print("\nLinear Regression By Year . . .\n")
     LinRegByYear(ndf)
