@@ -4,6 +4,7 @@ import sklearn.cluster as cluster
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 
 def readCSV(filepath):
@@ -29,6 +30,27 @@ def applyPCA(data_frame, n_components=2):
     principal_df = pd.DataFrame(data=principal_components, columns=[f'PC{i}' for i in range(1, n_components+1)])
     return principal_df
 
+def findOptimalClusters(data_frame, max_clusters=10):
+    inertia = []
+    silhouette_scores = []
+    K = range(2, max_clusters+1)  # Starting from 2 clusters to compute silhouette score
+    for k in K:
+        kmeans = cluster.KMeans(n_clusters=k, random_state=42)
+        labels = kmeans.fit_predict(data_frame)
+        inertia.append(kmeans.inertia_)
+        silhouette_scores.append(silhouette_score(data_frame, labels))
+    
+    # plt.subplot(1, 2, 2)
+    plt.plot(K, silhouette_scores, 'bx-')
+    plt.xlabel('Number of clusters')
+    plt.ylabel('Silhouette Score')
+    plt.title('Silhouette Score for each k')
+    plt.show()
+
+    # Choose the number of clusters based on highest silhouette score
+    optimal_k = K[np.argmax(silhouette_scores)]
+    return optimal_k
+
 def KmeansClustering(data_frame, n_clusters=5):
     kmeans = cluster.KMeans(n_clusters=n_clusters)
     kmeans.fit(data_frame)
@@ -39,14 +61,15 @@ if __name__ == "__main__":
     DF = readCSV(filepath)
     DF = preprocessData(DF)
     PCA_DF = applyPCA(DF)
-    labels, centers = KmeansClustering(PCA_DF)
+    optimal_k = findOptimalClusters(PCA_DF)
+    labels, centers = KmeansClustering(PCA_DF, optimal_k)
     
     plt.figure(figsize=(12, 8))
     scatter = plt.scatter(PCA_DF['PC1'], PCA_DF['PC2'], c=labels, cmap='viridis', alpha=0.5, marker='o', label='Data Points')
-    plt.scatter(centers[:, 0], centers[:, 1], s=300, c='red', marker='x', label='Centroids')
-    plt.xlabel('Principal Component 1')
-    plt.ylabel('Principal Component 2')
-    plt.title('K-means Clustering on PCA-reduced Data')
+    plt.scatter(centers[:, 0], centers[:, 1], s=300, c='crimson', marker='x', label='Centroids')
+    plt.xlabel('Principal_Component 1')
+    plt.ylabel('Principal_Component 2')
+    plt.title('K-means Clustering on Mushroom Data')
     plt.legend()
     plt.colorbar(scatter)
     plt.show()
